@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {#blog/templates/blog/HTML/index.html#}
+    {% extends 'blog/HTML/base.html' %}
+    {% block title %}主页{% endblock %}
+</head>
+<body>
+{% block content %}
+    {% for article in articles %}
+    <h3><a href=#>{{ article }}</a></h3>
+    {% endfor %}
+{% endblock %}
+</body>
+</html>
