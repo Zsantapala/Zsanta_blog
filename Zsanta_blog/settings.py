@@ -29,11 +29,12 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+'''
 NOTEBOOK_ARGUMENTS = [
     '--ip', '127.0.0.1',
     '--port', '9001',
 ]
-
+'''
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog',
     'captcha',
-    'django_extensions',
+    #'django_extensions',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

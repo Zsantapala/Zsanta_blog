@@ -1,7 +1,6 @@
 # Zsanta_blog
 Zsanta_blog Test
 
-
 关于第五章Django ORM
 
 需要安装 pip install jupyter notebook django-extensions
