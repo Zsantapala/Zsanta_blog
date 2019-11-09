@@ -1,5 +1,5 @@
-{% load staticfiles %}
 <!DOCTYPE html>
+{% load staticfiles %}
 <html lang="zh-CN">
     <head>
         <meta charset="utf-8">
@@ -9,13 +9,14 @@
         <title>{% block title %}base{% endblock %}</title>
         <!-- Bootstrap -->
         <link href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.min.css' %}" rel="stylesheet">
-
-<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-  <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-<![endif]--> {% block css %}{% endblock %} </head>
+        <script type="text/javascript">
+            function dismessage()
+            {
+              alert('该功能正在开发中！')
+            }
+        </script>
+        {% block css %}{% endblock %}
+    </head>
     <body>
     <nav class="navbar navbar-default">
         <div class="container-fluid">
@@ -38,7 +39,7 @@
 
          <ul class="nav navbar-nav navbar-right">
           {% if request.session.is_login %}
-           <li class="actice"><a href=#>添加新博客</a> </li>
+           <li class="actice" onclick="dismessage()"><a href=#>添加新博客</a> </li>
           <li>
               <a href="#">
               当前在线：{{ request.session.user_name }}

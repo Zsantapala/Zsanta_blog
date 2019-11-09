@@ -35,3 +35,13 @@ def logout_view(request):
         return redirect('index')
     logout(request)
     return redirect('index')
+
+def post_article(request, post_id):
+    article_p = Post.objects.get(pk=post_id)
+    edit_status = False
+    if request.session.get('is_login', None):
+        username = request.session.get('user_name', None)
+        if username == article_p.author.username:
+            edit_status = True
+            return render(request, 'blog/HTML/post_article.html', {'article': article_p, 'edit_status': edit_status})
+    return render(request, 'blog/HTML/post_article.html', {'article': article_p, 'edit_status': edit_status})
