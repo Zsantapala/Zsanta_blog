@@ -76,10 +76,10 @@ def new_post(request):
         post_form = PostForm(request.POST)
         message = "请输入标题和内容！"
         if post_form.is_valid():
-            title = post_form.cleaned_data['headline']
-            text = post_form.cleaned_data['text_body']
-            Post.objects.create(author=user, title=title, text=text)
-            Post.publish()
+            title = post_form.cleaned_data['title']
+            text = post_form.cleaned_data['text']
+            post = Post.objects.create(author=user, title=title, text=text)
+            post.publish()
             return redirect('index')
         else:
             return render(request, 'blog/HTML/edit_post.html', {'message': message, 'new_post': new_post})
