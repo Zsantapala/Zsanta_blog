@@ -13,8 +13,8 @@
     {% else %}
         <h1>你尚未登录，只能访问公开内容！</h1>
     {% endif %}
-    {% for article in articles %}
-    <h3><a href="post_article/{{article.id}}">{{ article }}</a></h3>
+    {% for post in posts %}
+    <h3><a href="post_article/{{post.id}}">{{ post }}</a></h3>
     {% endfor %}
 {% endblock %}
 </body>

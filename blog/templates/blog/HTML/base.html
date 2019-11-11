@@ -39,7 +39,7 @@
 
          <ul class="nav navbar-nav navbar-right">
           {% if request.session.is_login %}
-           <li class="actice" onclick="dismessage()"><a href=#>添加新博客</a> </li>
+           <li class="actice"><a href="{% url 'new_post' %}" >添加新博客</a> </li>
           <li>
               <a href="#">
               当前在线：{{ request.session.user_name }}

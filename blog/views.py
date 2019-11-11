@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
 from .models import Post
-from .forms import UserForm, ArticleForm
+from .forms import UserForm, PostForm
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 # Create your views here.
 
 def index(request):
-    Post_list = Post.objects.all().order_by('published_date')[:5]
-    return render(request, 'blog/HTML/index.html', {'articles': Post_list})
+    Post_list = Post.objects.all().order_by('created_date')[:5]
+    return render(request, 'blog/HTML/index.html', {'posts': Post_list})
 
 def login_status(request):
     if request.session.get('is_login', None):
@@ -37,11 +38,50 @@ def logout_view(request):
     return redirect('index')
 
 def post_article(request, post_id):
-    article_p = Post.objects.get(pk=post_id)
+    post = Post.objects.get(pk=post_id)
     edit_status = False
     if request.session.get('is_login', None):
         username = request.session.get('user_name', None)
-        if username == article_p.author.username:
+        if username == post.author.username:
             edit_status = True
-            return render(request, 'blog/HTML/post_article.html', {'article': article_p, 'edit_status': edit_status})
-    return render(request, 'blog/HTML/post_article.html', {'article': article_p, 'edit_status': edit_status})
+            return render(request, 'blog/HTML/post_article.html', {'post': post, 'edit_status': edit_status})
+    return render(request, 'blog/HTML/post_article.html', {'post': post, 'edit_status': edit_status})
+
+def Edit_Post(request,post_id):
+    if not request.session.get('is_login', None):
+        return redirect('index')
+    user = User.objects.get(username=request.session.get('user_name', None))
+    post = Post.objects.get(pk=post_id)
+    new_post = False
+    if request.method == 'POST':
+        post.title = request.POST.get('title')
+        post.text = request.POST.get('text')
+        post.publish()
+        return redirect('index')
+    elif post.author == user:
+        post_info = {
+            'title': post.title,
+            'text': post.text,
+        }
+        post_form = PostForm(initial=post_info)
+        return render(request, 'blog/HTML/edit_post.html', {'postform': post_form, 'post': post, 'new_post': new_post})
+    return redirect('index')
+
+def new_post(request):
+    if not request.session.get('is_login', None):
+        return redirect('index')
+    user = User.objects.get(username=request.session.get('user_name', None))
+    new_post = True
+    if request.method == 'POST':
+        post_form = PostForm(request.POST)
+        message = "请输入标题和内容！"
+        if post_form.is_valid():
+            title = post_form.cleaned_data['headline']
+            text = post_form.cleaned_data['text_body']
+            Post.objects.create(author=user, title=title, text=text)
+            Post.publish()
+            return redirect('index')
+        else:
+            return render(request, 'blog/HTML/edit_post.html', {'message': message, 'new_post': new_post})
+    postform = PostForm()
+    return render(request, 'blog/HTML/edit_post.html', {'new_post': new_post, 'postform': postform})

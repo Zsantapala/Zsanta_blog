@@ -5,6 +5,6 @@ class UserForm(forms.Form):
     password = forms.CharField(label='密  码', max_length=256, widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     captcha = CaptchaField(label='验证码')
 
-class ArticleForm(forms.Form):
-    headline = forms.CharField(label='标题', max_length=128, widget=forms.TextInput)
-    text_body = forms.CharField(label='内容', widget=forms.Textarea)
+class PostForm(forms.Form):
+    title = forms.CharField(label='标题', max_length=128, widget=forms.TextInput)
+    text = forms.CharField(label='内容', widget=forms.Textarea)
