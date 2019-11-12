@@ -1,10 +1,16 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     {#blog/templates/blog/HTML/index.html#}
     {% extends 'blog/HTML/base.html' %}
+    {% load staticfiles %}
     {% block title %}主页{% endblock %}
+    {% block css %}
+    <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/post_list.css'%}"/>
+    {% endblock %}
 </head>
 <body>
 {% block content %}
@@ -13,9 +19,21 @@
     {% else %}
         <h1>你尚未登录，只能访问公开内容！</h1>
     {% endif %}
-    {% for post in posts %}
-    <h3><a href="post_article/{{post.id}}">{{ post }}</a></h3>
-    {% endfor %}
+    <div class="content container">
+        <div class="row">
+            <div class="col-md-8">
+                {% for post in posts %}
+                <div class="post">
+                    <h3><a href="post_article/{{post.id}}">{{ post }}</a></h3>
+                    {% if request.session.is_login %}
+                    <p>{{ post.text|linebreaksbr }}</p>
+                    {% endif %}
+                    <div class="date">published:{{ post.published_date }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
 </body>
 </html>
