@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% extends 'blog/HTML/base.html' %}
+    {% block title %}文章列表{% endblock %}
+    {% load staticfiles %}
+    {% block css %}
+    <link rel="stylesheet" href="{% static 'css/post_list.css'%}"/>
+    {% endblock %}
+</head>
+<body>
+{% block content %}
+    <div class="content">
+        <div class="col-sm-3">
+        {%  for content in contents %}
+        <div class="list-group">
+            <a href="{% url 'post_article' content.id %}" class="list-group-item">{{ content|upper }}</a>
+        </div>
+        {% endfor %}
+        <div class="pagination">
+            <span class="step-links">
+                {% if contents.has_previous %}
+                    <a href="?page=1">&laquo;首页</a>
+                    <a href="?page={{ contents.previous_page_number }}">上一页</a>
+                {% endif %}
+            <span class="">
+                {{ contents.number }}
+            </span>
+                {% if contents.has_next %}
+                <a href="?page={{ contents.next_page_number }}">下一页</a>
+                <a href="?page={{ contents.paginator.num_pages }}">{{ contents.paginator.num_pages }}尾页&raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+    </div>
+{% endblock %}
+</body>
+</html>

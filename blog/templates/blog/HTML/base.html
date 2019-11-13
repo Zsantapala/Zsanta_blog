@@ -36,6 +36,9 @@
       <ul class="nav navbar-nav">
         <li class="active"><a href="{% url 'index' %}">主页</a></li>
       </ul>
+        <ul class="nav navbar-nav">
+        <li><a href="{% url 'p' %}">文章列表</a></li>
+      </ul>
 
          <ul class="nav navbar-nav navbar-right">
           {% if request.session.is_login %}

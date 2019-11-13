@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from .models import Post
 from .forms import UserForm, PostForm
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout   #导入认证模块
+from django.contrib.auth.models import User                   #导入认证用户模块
+from django.core.paginator import Paginator                   #导入分页功能模块
 # Create your views here.
 
 def index(request):
@@ -85,3 +86,11 @@ def new_post(request):
             return render(request, 'blog/HTML/edit_post.html', {'message': message, 'new_post': new_post})
     postform = PostForm()
     return render(request, 'blog/HTML/edit_post.html', {'new_post': new_post, 'postform': postform})
+
+def post_list(request):
+    post_list = Post.objects.all()
+    page_info = Paginator(post_list, 2)
+
+    page = request.GET.get('page')
+    contents = page_info.get_page(page)
+    return render(request, 'blog/HTML/post_list.html', {'contents': contents})
