@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,25 +13,23 @@
 </head>
 <body>
 {% block content %}
-    {% if request.session.is_login %}
-        <h1>你好,{{ request.session.user_name }}！欢迎回来！</h1>
-    {% else %}
-        <h1>你尚未登录，只能访问公开内容！</h1>
-    {% endif %}
-    <div class="content container">
-        <div class="row">
-            <div class="col-md-8">
-                {% for post in posts %}
-                <div class="post">
-                    <h3><a href="post_article/{{post.id}}">{{ post }}</a></h3>
-                    {% if request.session.is_login %}
-                    <p>{{ post.text|linebreaksbr }}</p>
-                    {% endif %}
-                    <div class="date">published:{{ post.published_date }}</div>
-                </div>
-                {% endfor %}
-            </div>
+    <div class="jumbotron">
+          {% if request.session.is_login %}
+            <h1>你好,{{ request.session.user_name }}！欢迎回来！</h1>
+            <p><a class="btn btn-lg btn-success" href="{% url 'new_post' %}" role="button">添加新文章</a></p>
+          {% else %}
+            <h1>你尚未登录，只能访问公开内容！</h1>
+          {% endif %}
+        <p class="lead"></p>
+      </div>
+    <div class="row marketing">
+        {% for post in posts %}
+        <div class="col-lg-6">
+             <h4><a href="post_article/{{post.id}}">{{ post }}</a></h4>
+             <p>{{ post.text|linebreaksbr }}</p>
+             <div >published:{{ post.published_date }}</div>
         </div>
+        {% endfor %}
     </div>
 {% endblock %}
 </body>

@@ -4,6 +4,7 @@ from .forms import UserForm, PostForm
 from django.contrib.auth import authenticate, login, logout   #导入认证模块
 from django.contrib.auth.models import User                   #导入认证用户模块
 from django.core.paginator import Paginator                   #导入分页功能模块
+from django.utils import timezone
 # Create your views here.
 
 def index(request):
@@ -88,7 +89,7 @@ def new_post(request):
     return render(request, 'blog/HTML/edit_post.html', {'new_post': new_post, 'postform': postform})
 
 def post_list(request):
-    post_list = Post.objects.all()
+    post_list = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
     page_info = Paginator(post_list, 2)
 
     page = request.GET.get('page')
