@@ -6,34 +6,46 @@
     {% block title %}文章列表{% endblock %}
     {% load staticfiles %}
     {% block css %}
+    <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{% static 'css/post_list.css'%}"/>
     {% endblock %}
 </head>
 <body>
 {% block content %}
+    <div class="jumbotron">
+          {% if request.session.is_login %}
+            <h1>你好,{{ request.session.user_name }}！欢迎回来！</h1>
+            <p><a class="btn btn-lg btn-success" href="{% url 'new_post' %}" role="button">添加新文章</a></p>
+          {% else %}
+            <h1>你尚未登录，只能访问公开内容！</h1>
+          {% endif %}
+        <p class="lead"></p>
+    </div>
+
     <div class="row marketing">
-        <div class="col-sm-3">
         {%  for content in contents %}
-        <div class="list-group">
+        <div class="row">
+            <div class=".col-md-6 .col-md-offset-3">
             <a href="{% url 'post_article' content.id %}" class="list-group-item">{{ content|upper }}</a>
+                <h5><p>{{ content.text|linebreaksbr }}</p></h5>
+            </div>
         </div>
         {% endfor %}
         <div class="pagination">
             <span class="step-links">
                 {% if contents.has_previous %}
-                    <a href="?page=1">&laquo;首页</a>
-                    <a href="?page={{ contents.previous_page_number }}">上一页</a>
+                <button type="button"  class="btn btn-default btn-xs"><a href="?page=1">&laquo;首页</a></button>
+                <button type="button"  class="btn btn-default btn-xs"><a href="?page={{ contents.previous_page_number }}">上一页</a></button>
                 {% endif %}
             <span class="">
                 {{ contents.number }}
             </span>
                 {% if contents.has_next %}
-                <a href="?page={{ contents.next_page_number }}">下一页</a>
-                <a href="?page={{ contents.paginator.num_pages }}">{{ contents.paginator.num_pages }}尾页&raquo;</a>
+                <button type="button"  class="btn btn-default btn-xs"><a href="?page={{ contents.next_page_number }}">下一页</a></button>
+                <button type="button"  class="btn btn-default btn-xs"><a href="?page={{ contents.paginator.num_pages }}">尾页&raquo;</a></button>
                 {% endif %}
             </span>
         </div>
-    </div>
     </div>
 {% endblock %}
 </body>
